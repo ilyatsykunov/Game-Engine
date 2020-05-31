@@ -1,0 +1,10 @@
+# Directories
+
+/Debug
+/Images
+
+# VS generated files
+*.dll
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
