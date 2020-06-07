@@ -9,6 +9,10 @@
 #include "Texture.h"
 #include "Material.h"
 
+/*
+	Class for loading mesh data into memory
+*/
+
 class Mesh
 {
 private:
@@ -30,10 +34,10 @@ private:
 
 	void initVAO();
 	void updateModelMatrix();
-	void updateUniforms(Shader *);
+	void updateUniforms(Shader*);
 public:
-	Mesh(Vertex *, const unsigned &, GLuint *, const unsigned &, glm::vec3, glm::vec3, glm::vec3, glm::vec3);
-	Mesh(Primitive *, glm::vec3, glm::vec3, glm::vec3, glm::vec3);
+	Mesh(Vertex*, const unsigned&, GLuint*, const unsigned&, glm::vec3, glm::vec3, glm::vec3, glm::vec3);
+	Mesh(Primitive*, glm::vec3, glm::vec3, glm::vec3, glm::vec3);
 	Mesh(const Mesh&);
 	~Mesh();
 	// Modifiers
@@ -48,6 +52,6 @@ public:
 
 
 	void update();
-	void render(Shader *);
+	void render(Shader*);
 };
 

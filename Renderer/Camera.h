@@ -10,6 +10,10 @@
 #include <mat4x4.hpp>
 #include <gtc/matrix_transform.hpp>
 
+/*
+	Camera class allows moving around the level
+*/
+
 enum direction { FORWARD = 0, BACKWARD, LEFT, RIGHT };
 
 class Camera
@@ -38,7 +42,7 @@ private:
 	// FUNCTIONS
 
 public:
-	Camera(glm::vec3, glm::vec3, glm::vec3);
+	Camera(glm::vec3 position, glm::vec3 direction, glm::vec3 worldUp);
 	~Camera();
 
 	// ACCESSORS
@@ -49,8 +53,8 @@ public:
 	// MODIFIERS
 
 	// FUNCTIONS
-	void move(const float &, const int);
-	void updateMouseInput(const float &, const double &, const double &);
-	void updateInput(const float &, const int, const double &, const double &);
+	void move(const float&, const int);
+	void updateMouseInput(const float&, const double&, const double&);
+	void updateInput(const float&, const int, const double&, const double&);
 };
 

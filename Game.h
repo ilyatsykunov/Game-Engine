@@ -1,6 +1,10 @@
 #pragma once
-
 #include "libs.h"
+/*
+	Game class creates a window with a game level loaded
+*/
+
+
 
 // ENUMERATIONS
 enum shader_enum { SHADER_CORE_PROGRAM = 0 };
@@ -12,7 +16,7 @@ class Game
 {
 private:
 	// Window
-	GLFWwindow *window;
+	GLFWwindow* window;
 	const int WINDOW_WIDTH;
 	const int WINDOW_HEIGHT;
 	int framebufferWidth;
@@ -67,7 +71,7 @@ private:
 
 	// PRIVATE FUNCTIONS
 	void initGLFW();
-	void initWindow(const char *, bool);
+	void initWindow(const char*, bool);
 	void initGLEW();
 	void initOpenGLOptions();
 	void initMatrices();
@@ -81,7 +85,7 @@ private:
 	void updateUniforms();
 
 public:
-	Game(const char *, const int, const int, int, int, bool);
+	Game(const char*, const int, const int, int, int, bool);
 	~Game();
 
 	// ACCESSORS
@@ -99,6 +103,6 @@ public:
 	void render();
 
 	//STATIC FUNCTIONS
-	static void framebufferResizeCallback(GLFWwindow *, int, int);
+	static void framebufferResizeCallback(GLFWwindow*, int, int);
 };
 

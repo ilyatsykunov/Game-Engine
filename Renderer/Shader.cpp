@@ -1,5 +1,9 @@
 #include "Shader.h"
 
+/*
+	Class for loading and updating Vertext and Fragment shaders.
+*/
+
 std::string Shader::loadShaderSource(char* fileName)
 {
 	std::string temp = "";
@@ -152,7 +156,7 @@ void Shader::set1i(GLfloat value, const GLchar* name)
 	this->unuse();
 }
 
-void Shader::setVec2f(glm::fvec2 value, const GLchar *name)
+void Shader::setVec2f(glm::fvec2 value, const GLchar* name)
 {
 	this->use();
 
@@ -179,7 +183,7 @@ void Shader::setVec4f(glm::fvec4 value, const GLchar* name)
 	this->unuse();
 }
 
-void Shader::setMat3fv(glm::mat3 value, const GLchar *name, GLboolean transpose)
+void Shader::setMat3fv(glm::mat3 value, const GLchar* name, GLboolean transpose)
 {
 	this->use();
 
@@ -188,7 +192,7 @@ void Shader::setMat3fv(glm::mat3 value, const GLchar *name, GLboolean transpose)
 	this->unuse();
 }
 
-void Shader::setMat4fv(glm::mat4 value, const GLchar *name, GLboolean transpose)
+void Shader::setMat4fv(glm::mat4 value, const GLchar* name, GLboolean transpose)
 {
 	this->use();
 

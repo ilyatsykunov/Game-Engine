@@ -1,5 +1,8 @@
 #include "Material.h"
 
+/*
+	Material class sends material and lighting data to the fragment shader
+*/
 
 Material::Material(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, GLint diffuseTex, GLint specularTex)
 {
@@ -15,7 +18,7 @@ Material::~Material()
 {
 }
 
-void Material::sendToShader(Shader &program)
+void Material::sendToShader(Shader& program)
 {
 	program.setVec3f(this->ambient, "material.ambient");
 	program.setVec3f(this->diffuse, "material.diffuse");

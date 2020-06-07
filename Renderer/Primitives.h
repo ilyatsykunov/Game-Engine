@@ -1,5 +1,9 @@
 #pragma once
 
+/*
+	Class of primitive shapes: Quad, Triangle, Pyramid and Cube
+*/
+
 #include <glew.h>
 #include <glfw3.h>
 
@@ -17,9 +21,9 @@ public:
 	Primitive();
 	virtual ~Primitive();
 
-	void set(const Vertex *, const unsigned, const GLuint *, const unsigned);
-	inline Vertex *getVertices() { return this->vertices.data(); }
-	inline GLuint *getIndices() { return this->indices.data(); }
+	void set(const Vertex* vertices, const unsigned nrOfVertices, const GLuint *indices, const unsigned nrOfIndices);
+	inline Vertex* getVertices() { return this->vertices.data(); }
+	inline GLuint* getIndices() { return this->indices.data(); }
 	inline const unsigned getNrOfVertices() { return this->vertices.size(); }
 	inline const unsigned getNrOfIndices() { return this->indices.size(); }
 };

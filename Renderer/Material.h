@@ -11,6 +11,10 @@
 
 #include "Shader.h"
 
+/*
+	Material class sends material and lighting data to the fragment shader
+*/
+
 class Material
 {
 private:
@@ -21,8 +25,8 @@ private:
 	GLint specularTex;
 
 public:
-	Material(glm::vec3, glm::vec3, glm::vec3, GLint, GLint);
+	Material(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, GLint diffuseTex, GLint specularTex);
 	~Material();
-	void sendToShader(Shader &);
+	void sendToShader(Shader&);
 };
 

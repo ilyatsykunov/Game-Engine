@@ -1,4 +1,7 @@
 #include "Mesh.h"
+/*
+	Class for loading mesh data into memory
+*/
 
 void Mesh::initVAO()
 {
@@ -48,7 +51,7 @@ void Mesh::updateModelMatrix()
 	this->ModelMatrix = glm::scale(this->ModelMatrix, this->scale);
 }
 
-void Mesh::updateUniforms(Shader *shader)
+void Mesh::updateUniforms(Shader* shader)
 {
 	shader->setMat4fv(this->ModelMatrix, "ModelMatrix");
 }

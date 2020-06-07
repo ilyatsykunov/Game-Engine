@@ -14,7 +14,7 @@ private:
 	unsigned int type;
 
 public:
-	Texture(const char *, GLenum);
+	Texture(const char*, GLenum);
 	~Texture();
 	inline GLuint getID() const { return this->id; }
 	void bind(const GLint);

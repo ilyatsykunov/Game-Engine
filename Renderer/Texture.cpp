@@ -2,7 +2,7 @@
 
 
 
-Texture::Texture(const char *fileName, GLenum type)
+Texture::Texture(const char* fileName, GLenum type)
 {
 	if (this->id)
 	{
@@ -56,7 +56,7 @@ void Texture::unbind()
 	glBindTexture(this->type, 0);
 }
 
-void Texture::loadFromFile(const char *fileName)
+void Texture::loadFromFile(const char* fileName)
 {
 	if (this->id)
 	{

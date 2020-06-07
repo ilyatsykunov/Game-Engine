@@ -1,11 +1,6 @@
 #include "Model.h"
 
 
-
-void Model::updateUniforms()
-{
-}
-
 Model::Model(glm::vec3 position, Material* material, Texture* orTexDif, Texture* orTexSpec, std::vector<Mesh*> meshes)
 {
 	this->position = position;
@@ -39,7 +34,7 @@ void Model::rotate(const glm::vec3 rotation)
 void Model::render(Shader* shader)
 {
 	// UPDATE UNIFORMS
-	this->updateUniforms();
+	//this->updateUniforms();
 	this->material->sendToShader(*shader);
 
 	// USE THE PROGRAM

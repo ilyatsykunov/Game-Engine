@@ -1,4 +1,9 @@
 #pragma once
+
+/*
+	Class for loading and updating Vertext and Fragment shaders.
+*/
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -28,7 +33,7 @@ private:
 
 public:
 
-	Shader(const int, const int, const char*, const char*, const char* = "");
+	Shader(const int majorVersion, const int minorVersion, const char* cVertexFile, const char* cFragmentFile, const char* cGeometryFile = "");
 	~Shader();
 
 	void use();

@@ -1,5 +1,9 @@
 #pragma once
 
+/*
+	All libraries required by the Game class
+*/
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -18,11 +22,11 @@
 
 #include <SOIL2.h>
 
-#include "Vertex.h"
-#include "Primitives.h"
-#include "Shader.h"
-#include "Texture.h"
-#include "Material.h"
-#include "Mesh.h"
-#include "Camera.h"
-#include "Model.h"
+#include "Renderer/Vertex.h"
+#include "Renderer/Primitives.h"
+#include "Renderer/Shader.h"
+#include "Renderer/Texture.h"
+#include "Renderer/Material.h"
+#include "Renderer/Mesh.h"
+#include "Renderer/Camera.h"
+#include "Renderer/Model.h"

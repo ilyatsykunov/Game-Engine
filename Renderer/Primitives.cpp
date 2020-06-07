@@ -1,6 +1,8 @@
 #include "Primitives.h"
 
-
+/*
+	Class of primitive shapes: Quad, Triangle, Pyramid and Cube
+*/
 
 Primitive::Primitive()
 {
@@ -11,7 +13,7 @@ Primitive::~Primitive()
 {
 }
 
-void Primitive::set(const Vertex *vertices, const unsigned nrOfVertices, const GLuint *indices, const unsigned nrOfIndices)
+void Primitive::set(const Vertex* vertices, const unsigned nrOfVertices, const GLuint *indices, const unsigned nrOfIndices)
 {
 	for (size_t i = 0; i < nrOfVertices; i++)
 	{

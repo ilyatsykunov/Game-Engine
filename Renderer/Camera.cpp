@@ -1,6 +1,7 @@
 #include "Camera.h"
-
-
+/*
+	Camera class allows moving around the level
+*/
 
 void Camera::updateCameraVectors()
 {
@@ -17,8 +18,8 @@ Camera::Camera(glm::vec3 position, glm::vec3 direction, glm::vec3 worldUp)
 {
 	this->ViewMatrix = glm::mat4(1.0f);
 
-	this->movementSpeed = 3.0f;
-	this->sensitivity = 5.0f;
+	this->movementSpeed = 2.0f;
+	this->sensitivity = 3.0f;
 	
 	this->worldUp = worldUp;
 	this->position = position;
@@ -51,7 +52,7 @@ const glm::vec3 Camera::getPosition() const
 	return this->position;
 }
 
-void Camera::move(const float &dt, const int direction)
+void Camera::move(const float& dt, const int direction)
 {
 	switch (direction)
 	{
@@ -72,7 +73,7 @@ void Camera::move(const float &dt, const int direction)
 	}
 }
 
-void Camera::updateMouseInput(const float &dt, const double &offsetX, const double &offsetY)
+void Camera::updateMouseInput(const float& dt, const double& offsetX, const double& offsetY)
 {
 	this->pitch += static_cast<GLfloat>(offsetY) * this->sensitivity * dt;
 	if (this->pitch > 80.0f)
@@ -87,7 +88,7 @@ void Camera::updateMouseInput(const float &dt, const double &offsetX, const doub
 		this->yaw = 0.0f;
 }
 
-void Camera::updateInput(const float &dt, const int direction, const double &offsetX, const double &offsetY)
+void Camera::updateInput(const float& dt, const int direction, const double& offsetX, const double& offsetY)
 {
 	this->updateMouseInput(dt, offsetX, offsetY);
 }

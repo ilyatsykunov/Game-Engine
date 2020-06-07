@@ -1,36 +1,43 @@
 #include "Game.h"
+/*
+	Game class creates a window with a game level loaded
+*/
 
+// Initializes GLFW
 void Game::initGLFW()
 {
 	if (glfwInit() == GLFW_FALSE)
 	{
-		std::cout << "ERROR: -GLFW INIT- FAILED" << std::endl;
+		std::cout << "ERROR::GAME::GLFW INIT::FAILED" << std::endl;
 	}
 }
 
-void Game::initWindow(const char *title, bool resizable)
+// Creates and activates a GLFW window
+void Game::initWindow(const char* title, bool resizable)
 {
+	// Set OpenGL context
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, this->GL_MAJOR_V);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, this->GL_MINOR_V);
 	glfwWindowHint(GLFW_RESIZABLE, resizable);
 
+	// Create GLFW window
 	this->window = glfwCreateWindow(this->WINDOW_WIDTH, this->WINDOW_HEIGHT, title, NULL, NULL);
-
 	if (this->window == nullptr)
 	{
-		std::cout << "ERROR: -initWindow- FAILED" << std::endl;
+		std::cout << "ERROR::GAME::initWindow::FAILED" << std::endl;
 		glfwTerminate();
 	}
 
+	// Set window and viewport size
 	glfwSetFramebufferSizeCallback(this->window, Game::framebufferResizeCallback);
-
 	glfwGetFramebufferSize(this->window, &this->framebufferWidth, &this->framebufferHeight);
 	glViewport(0, 0, this->framebufferWidth, this->framebufferHeight);
 
-	glfwMakeContextCurrent(this->window); // IMPORTANT
+	glfwMakeContextCurrent(this->window);
 }
 
+// Initializes GLEW
 void Game::initGLEW()
 {
 	glewExperimental = GL_TRUE;
@@ -42,6 +49,7 @@ void Game::initGLEW()
 	}
 }
 
+// Initializes OpenGL rendering settings
 void Game::initOpenGLOptions()
 {
 	glEnable(GL_DEPTH_TEST);
@@ -58,6 +66,7 @@ void Game::initOpenGLOptions()
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
+// Intiializes view matrix and projection matrix for rendering objects in the FOV of the camera
 void Game::initMatrices()
 {
 	this->ViewMatrix = glm::mat4(1.0f);
@@ -67,13 +76,15 @@ void Game::initMatrices()
 	this->ProjectionMatrix = glm::perspective(glm::radians(this->fov), static_cast<float>(this->framebufferWidth) / this->framebufferHeight, this->nearPlane, this->farPlane);
 }
 
+// Initializes the shaders used by this game instance
 void Game::initShaders()
 {
 	// MAIN SHADER
-	Shader *newShader = new Shader(this->GL_MAJOR_V, this->GL_MINOR_V, "vertex_core.glsl", "fragment_core.glsl");
+	Shader *newShader = new Shader(this->GL_MAJOR_V, this->GL_MINOR_V, "Renderer/vertex_core.glsl", "Renderer/fragment_core.glsl");
 	shaders.push_back(newShader);
 }
 
+// Initializes the textures used by objects in this game instance
 void Game::initTextures()
 {
 	Texture *newTexture0 = new Texture("Images/test.jpg", GL_TEXTURE_2D);
@@ -82,12 +93,14 @@ void Game::initTextures()
 	this->textures.push_back(newTexture0Specular);
 }
 
+// Initializes the materials used by objects in this game instance
 void Game::initMaterials()
 {
 	Material *newMaterial0 = new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 0, 1);
 	this->materials.push_back(newMaterial0);
 }
 
+// Initializes the models in this game instance
 void Game::initModels()
 {
 	std::vector<Mesh*> meshes;
@@ -133,33 +146,47 @@ void Game::initModels()
 		delete i;
 }
 
+// Initializes the lights in this game instance
 void Game::initLights()
 {
-	glm::vec3 *newLightPos0 = new glm::vec3(-2.0f, 0.0f, 2.0f);
+	glm::vec3 *newLightPos0 = new glm::vec3(0.0f, 1.0f, -2.0f);
 	this->lights.push_back(newLightPos0);
 }
 
+// Initializes the lighting shaders
 void Game::initUniforms()
 {
 	Shader* lightingShader = this->shaders[SHADER_CORE_PROGRAM];
 	lightingShader->setMat4fv(ViewMatrix, "ViewMatrix");
 	lightingShader->setMat4fv(ProjectionMatrix, "ProjectionMatrix");
 
-	// MAIIN LIGHT
-	lightingShader->setVec3f(*this->lights[0], "light.position");
-	lightingShader->setVec3f(glm::vec3(-0.0f, -3.0f, -5.0f), "light.direction");
-	lightingShader->setFloat(glm::cos(glm::radians(12.5f)), "light.cutOff");
+	// MAIN LIGHT - DIRECTIONAL
+	lightingShader->setVec4f(glm::vec4(-0.0f, -3.0f, -5.0f, 0.0f), "lightsArray[0].lightVector");
 
-	lightingShader->setVec3f(glm::vec3(2.0f, 2.0f, 2.0f), "light.ambient");
-	lightingShader->setVec3f(glm::vec3(0.5f, 0.5f, 0.5f), "light.diffuse");
-	lightingShader->setVec3f(glm::vec3(2.0f, 2.0f, 2.0f), "light.specular");
+	lightingShader->setVec3f(glm::vec3(0.5f, 0.5f, 0.5f), "lightsArray[0].ambient");
+	lightingShader->setVec3f(glm::vec3(1.0f, 1.0f, 1.0f), "lightsArray[0].diffuse");
+	lightingShader->setVec3f(glm::vec3(1.0f, 1.0f, 1.0f), "lightsArray[0].specular");
 
-	lightingShader->setFloat(1.0f, "light.constant");
-	lightingShader->setFloat(0.1f, "light.linear");
-	lightingShader->setFloat(0.01f, "light.quadratic");
+	// SECONDARY LIGHT - POSITIONAL 
+	lightingShader->setVec4f(glm::vec4(*this->lights[0], 1.0f), "lightsArray[1].lightVector");
+
+	lightingShader->setVec3f(glm::vec3(0.2f, 0.2f, 0.2f), "lightsArray[1].ambient");
+	lightingShader->setVec3f(glm::vec3(0.5f, 0.5f, 0.5f), "lightsArray[1].diffuse");
+	lightingShader->setVec3f(glm::vec3(1.0f, 1.0f, 1.0f), "lightsArray[1].specular");
+
+	lightingShader->setFloat(1.0f, "lightsArray[1].constant");
+	lightingShader->setFloat(0.1f, "lightsArray[1].linear");
+	lightingShader->setFloat(0.01f, "lightsArray[1].quadratic");
+
+	// MATERIAL
+	lightingShader->setVec3f(glm::vec3(1.0f, 0.5f, 0.31f), "material.ambient");
+	lightingShader->setVec3f(glm::vec3(1.0f, 0.5f, 0.31f), "material.diffuse");
+	lightingShader->setVec3f(glm::vec3(0.5f, 0.5f, 0.5f), "material.specular");
+	lightingShader->setFloat(30.0f, "material.shininess");
 
 }
 
+// Updates what is in the field of view of the camera
 void Game::updateUniforms()
 {
 	// UPDATE CAMERA VIEW MATRIX
@@ -176,7 +203,8 @@ void Game::updateUniforms()
 	this->shaders[SHADER_CORE_PROGRAM]->setMat4fv(this->ProjectionMatrix, "ProjectionMatrix");
 }
 
-Game::Game(const char *title, const int WINDOW_WIDTH, const int WINDOW_HEIGHT, int GL_MAJOR_V, int GL_MINOR_V, bool resizable)
+// Creates a game intance and initializes the window, camera, time and rendering settings.
+Game::Game(const char* title, const int WINDOW_WIDTH, const int WINDOW_HEIGHT, int GL_MAJOR_V, int GL_MINOR_V, bool resizable)
 	: WINDOW_WIDTH(WINDOW_WIDTH), WINDOW_HEIGHT(WINDOW_HEIGHT), GL_MAJOR_V(GL_MAJOR_V), GL_MINOR_V(GL_MINOR_V), 
 	camera(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f))
 {
@@ -217,6 +245,7 @@ Game::Game(const char *title, const int WINDOW_WIDTH, const int WINDOW_HEIGHT, i
 	this->initUniforms();
 }
 
+// Destroys this game instance
 Game::~Game()
 {
 	glfwDestroyWindow(this->window);
@@ -234,16 +263,19 @@ Game::~Game()
 		delete this->lights[i];
 }
 
+// Returns true if this window should close
 int Game::getWindowShouldClose()
 {
 	return glfwWindowShouldClose(this->window);
 }
 
+// Tells GLFW to close this window
 void Game::setWindowShouldClose()
 {
 	glfwSetWindowShouldClose(this->window, GLFW_TRUE);
 }
 
+// Updates Delta Time
 void Game::updateDt()
 {
 	this->curTime = static_cast<float>(glfwGetTime());
@@ -251,6 +283,7 @@ void Game::updateDt()
 	this->lastTime = this->curTime;
 }
 
+// Receive mouse input and update cursor position
 void Game::updateMouseInput()
 {
 	glfwGetCursorPos(this->window, &this->mouseX, &this->mouseY);
@@ -272,6 +305,7 @@ void Game::updateMouseInput()
 
 }
 
+// Receive keyboard input and move the camera
 void Game::updateKeyboardInput()
 {
 	if (glfwGetKey(this->window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -287,6 +321,7 @@ void Game::updateKeyboardInput()
 		this->camera.move(this->dt, RIGHT);
 }
 
+// Update keyboard and mouse 
 void Game::updateInput()
 {
 	glfwPollEvents();
@@ -296,6 +331,7 @@ void Game::updateInput()
 	this->camera.updateInput(dt, -1, this->mouseOffsetX, this->mouseOffsetY);
 }
 
+// Called every frame
 void Game::update()
 {
 	// UPDATE INPUT
@@ -303,6 +339,7 @@ void Game::update()
 	updateInput();
 }
 
+// Render everything in the camera field of view
 void Game::render()
 {
 	updateInput();
@@ -327,6 +364,7 @@ void Game::render()
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+// Called when window gets resized
 void Game::framebufferResizeCallback(GLFWwindow *window, int fbW, int fbH)
 {
 	glViewport(0, 0, fbW, fbH);

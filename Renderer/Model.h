@@ -9,20 +9,18 @@
 class Model
 {
 private:
-	Material *material;
-	Texture *overrideTextureDiffuse;
-	Texture *overrideTextureSpecular;
+	Material* material;
+	Texture* overrideTextureDiffuse;
+	Texture* overrideTextureSpecular;
 	std::vector<Mesh*> meshes;
 	glm::vec3 position;
 
-	void updateUniforms();
 public:
-	Model(glm::vec3, Material*, Texture*, Texture*, std::vector<Mesh*>);
+	Model(glm::vec3 position, Material* material, Texture* orTexDif, Texture* orTexSpec, std::vector<Mesh*> meshes);
 	~Model();
 
 	void rotate(const glm::vec3);
 
-	void update();
 	void render(Shader*);
 };
 
