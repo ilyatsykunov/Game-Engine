@@ -1,5 +1,6 @@
 #pragma once
 #include "libs.h"
+
 /*
 	Game class creates a window with a game level loaded
 */

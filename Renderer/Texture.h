@@ -1,9 +1,9 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include <glew.h>
-#include <glfw3.h>
-#include <SOIL2.h>
+#include <GLEW\glew.h>
+#include <GLFW\glfw3.h>
+#include <SOIL2\SOIL2.h>
 
 class Texture
 {
@@ -11,14 +11,22 @@ private:
 	GLuint id;
 	int width;
 	int height;
-	unsigned int type;
+	GLuint type;
+	const GLchar* fileName;
+	const std::string typeName;
+	const std::string path;
 
 public:
-	Texture(const char*, GLenum);
+	Texture(const GLchar* fileName, const GLchar* path, const std::string typeName);
 	~Texture();
-	inline GLuint getID() const { return this->id; }
+	inline const GLuint getID() { return this->id; }
+	const GLchar* getName() const { return this->fileName; }
+	const std::string getTypeName() const { return this->typeName; }
+	inline const GLuint getType() { return this->type; }
+	inline std::string getPath() { return this->path; }
+
+
 	void bind(const GLint);
 	void unbind();
-	void loadFromFile(const char *);
 };
 

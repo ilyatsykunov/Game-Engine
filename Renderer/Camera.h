@@ -2,13 +2,13 @@
 
 #include <iostream>
 
-#include <glew.h>
-#include <glfw3.h>
+#include <GLEW\glew.h>
+#include <GLFW\glfw3.h>
 
-#include <glm.hpp>
-#include <vec3.hpp>
-#include <mat4x4.hpp>
-#include <gtc/matrix_transform.hpp>
+#include <GLM\glm.hpp>
+#include <GLM\vec3.hpp>
+#include <GLM\mat4x4.hpp>
+#include <GLM\gtc/matrix_transform.hpp>
 
 /*
 	Camera class allows moving around the level

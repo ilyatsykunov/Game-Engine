@@ -1,4 +1,6 @@
 #include "Game.h"
+#include <iostream>
+#include <filesystem>
 /*
 	Game class creates a window with a game level loaded
 */
@@ -87,69 +89,26 @@ void Game::initShaders()
 // Initializes the textures used by objects in this game instance
 void Game::initTextures()
 {
-	Texture *newTexture0 = new Texture("Images/test.jpg", GL_TEXTURE_2D);
-	this->textures.push_back(newTexture0);
-	Texture *newTexture0Specular = new Texture("Images/testSpecular.jpg", GL_TEXTURE_2D);
-	this->textures.push_back(newTexture0Specular);
+
 }
 
 // Initializes the materials used by objects in this game instance
 void Game::initMaterials()
 {
-	Material *newMaterial0 = new Material(glm::vec3(0.1f), glm::vec3(1.0f), glm::vec3(1.0f), 0, 1);
-	this->materials.push_back(newMaterial0);
+
 }
 
 // Initializes the models in this game instance
 void Game::initModels()
 {
-	std::vector<Mesh*> meshes;
-
-	Mesh *groundMesh1 = new Mesh(&Cube(), glm::vec3(0.0f), glm::vec3(0.0f, -0.75f, 5.0f), glm::vec3(0.0f), glm::vec3(50.0f, 0.5f, 50.0f));
-	meshes.push_back(groundMesh1);
-	Model* groundModel1 = new Model(glm::vec3(0.0f), this->materials[0], this->textures[TEXTURE0], this->textures[TEXTURE0_SPECULAR], meshes);
-	this->models.push_back(groundModel1);
-
-	Mesh *lampMesh1 = new Mesh(&Cube(), glm::vec3(0.0f), glm::vec3(-2.0f, 0.0f, 2.0f), glm::vec3(0.0f), glm::vec3(0.25f, 5.0f, 0.25f));
-	meshes.push_back(lampMesh1);
-	Model* lampModel1 = new Model(glm::vec3(0.0f), this->materials[0], this->textures[TEXTURE0], this->textures[TEXTURE0_SPECULAR], meshes);
-	this->models.push_back(lampModel1);
-
-	for (int i = 0; i < 3; i++)
-	{
-		Mesh *cubeMesh1 = new Mesh(&Cube(), glm::vec3(0.0f), glm::vec3(-1.5f * i, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(1.0f));
-		meshes.push_back(cubeMesh1);
-		Model* cubeModel1 = new Model(glm::vec3(0.0f), this->materials[0], this->textures[TEXTURE0], this->textures[TEXTURE0_SPECULAR], meshes);
-		this->models.push_back(cubeModel1);
-
-		Mesh *pyramidMesh1 = new Mesh(&Pyramid(), glm::vec3(0.0f), glm::vec3(-1.5f * i, 1.0f, -0.5f), glm::vec3(0.0f), glm::vec3(1.0f));
-		meshes.push_back(pyramidMesh1);
-		Model* pyramidModel1 = new Model(glm::vec3(0.0f), this->materials[0], this->textures[TEXTURE0], this->textures[TEXTURE0_SPECULAR], meshes);
-		this->models.push_back(pyramidModel1);
-	}
-
-	for (int i = 0; i < 10; i++)
-	{
-		Mesh *cubeMesh1 = new Mesh(&Cube(), glm::vec3(0.0f), glm::vec3(1.5f * i, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(1.0f));
-		meshes.push_back(cubeMesh1);
-		Model* cubeModel1 = new Model(glm::vec3(0.0f), this->materials[0], this->textures[TEXTURE0], this->textures[TEXTURE0_SPECULAR], meshes);
-		this->models.push_back(cubeModel1);
-
-		Mesh *pyramidMesh1 = new Mesh(&Pyramid(), glm::vec3(0.0f), glm::vec3(1.5f * i, 1.0f, -0.5f), glm::vec3(0.0f), glm::vec3(1.0f));
-		meshes.push_back(pyramidMesh1);
-		Model* pyramidModel1 = new Model(glm::vec3(0.0f), this->materials[0], this->textures[TEXTURE0], this->textures[TEXTURE0_SPECULAR], meshes);
-		this->models.push_back(pyramidModel1);
-	}
-
-
-	for (auto*& i : meshes)
-		delete i;
+	Model* testModel = new Model(std::filesystem::absolute("Models/backpack.obj").string().c_str());
+	this->models.push_back(testModel);
 }
 
 // Initializes the lights in this game instance
 void Game::initLights()
 {
-	glm::vec3 *newLightPos0 = new glm::vec3(0.0f, 1.0f, -2.0f);
+	glm::vec3 *newLightPos0 = new glm::vec3(0.0f, 1.0f, 0.0f);
 	this->lights.push_back(newLightPos0);
 }
 

@@ -17,9 +17,11 @@ class Mesh
 {
 private:
 	Vertex* vertexArray;
-	unsigned nrOfVertices;
+	unsigned int nrOfVertices;
 	GLuint* indexArray;
-	unsigned nrOfIndices;
+	unsigned int nrOfIndices;
+	std::vector<Texture*> textureArray;
+	unsigned int nrOfTextures;
 
 	GLuint VAO;
 	GLuint VBO;
@@ -36,8 +38,10 @@ private:
 	void updateModelMatrix();
 	void updateUniforms(Shader*);
 public:
-	Mesh(Vertex*, const unsigned&, GLuint*, const unsigned&, glm::vec3, glm::vec3, glm::vec3, glm::vec3);
-	Mesh(Primitive*, glm::vec3, glm::vec3, glm::vec3, glm::vec3);
+	Mesh(Vertex* vertexArray, const unsigned& nrOfVertices, GLuint* indexArray, const unsigned& nrOfIndices, 
+		glm::vec3 position, glm::vec3 origin, glm::vec3 rotation, glm::vec3 scale);
+	Mesh(Primitive* primitive, glm::vec3 origin, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
+	Mesh(std::vector<Vertex> vertexArray, std::vector<GLuint> indexArray, std::vector<Texture*> textureArray);
 	Mesh(const Mesh&);
 	~Mesh();
 	// Modifiers

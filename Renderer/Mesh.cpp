@@ -109,6 +109,24 @@ Mesh::Mesh(Primitive* primitive, glm::vec3 origin = glm::vec3(0.0f), glm::vec3 p
 	this->updateModelMatrix();
 }
 
+Mesh::Mesh(std::vector<Vertex> vertexArray, std::vector<GLuint> indexArray, std::vector<Texture*> textureArray)
+{
+	this->position = glm::vec3(0.0f);
+	this->origin = glm::vec3(0.0f);
+	this->rotation = glm::vec3(0.0f);
+	this->scale = glm::vec3(1.0f);
+
+	this->vertexArray = vertexArray.data();
+	this->nrOfVertices = vertexArray.size();
+	this->indexArray = indexArray.data();
+	this->nrOfIndices = indexArray.size();
+	this->textureArray = textureArray;
+	this->nrOfTextures = textureArray.size();
+
+	this->initVAO();
+	this->updateModelMatrix();
+}
+
 Mesh::Mesh(const Mesh &obj)
 {
 	this->position = obj.position;
@@ -185,6 +203,29 @@ void Mesh::update()
 
 void Mesh::render(Shader* shader)
 {
+	unsigned int diffuseNum = 1;
+	unsigned int specularNum = 1;
+
+	if (nrOfTextures > 0)
+	{
+		for (unsigned int i = 0; i < this->nrOfTextures; i++)
+		{
+			glActiveTexture(GL_TEXTURE0 + i);
+
+			std::string num;
+			std::string name = textureArray[i]->getTypeName();
+			if (name == "diffuse")
+				num = std::to_string(diffuseNum++);
+			else if (name == "specular")
+				num = std::to_string(specularNum++);
+
+			shader->setInt(i, ("material." + name + num).c_str());
+			glBindTexture(GL_TEXTURE_2D, textureArray[i]->getID());
+		}
+	}
+
+	glActiveTexture(GL_TEXTURE0);
+
 	this->updateModelMatrix();
 	this->updateUniforms(shader);
 	shader->use();
@@ -201,6 +242,4 @@ void Mesh::render(Shader* shader)
 	// UNBIND
 	glBindVertexArray(0);
 	glUseProgram(0);
-	glActiveTexture(0);
-	glBindTexture(GL_TEXTURE_2D, 0);
 }

@@ -5,7 +5,7 @@
 
 int main ()
 {
-	Game game("Test", 640, 480, 4, 5, false);
+	Game game("Test", 1280, 1024, 4, 5, false);
 
 	while (!game.getWindowShouldClose())
 	{
